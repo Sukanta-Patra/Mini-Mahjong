@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxCardPairs;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Transform cardContainer;
+    [SerializeField] private float spacing = 10f;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
             cardIds.Add(i);
             cardIds.Add(i);
         }
+
         // Shuffle the card IDs
         for (int i = 0; i < cardIds.Count; i++)
         {
@@ -45,10 +47,33 @@ public class GameManager : MonoBehaviour
             int temp = cardIds[i];
             cardIds[i] = cardIds[rnd];
             cardIds[rnd] = temp;
+        }
 
-            //Spawn Card
-            Vector2 randomPos = new Vector2(Random.Range(-500f, 500f), Random.Range(-500f, 500f));
-            SpawnCard(cardIds[i], randomPos);
+        // Grid dimensions
+        int totalCards = cardIds.Count;
+        int columns = Mathf.CeilToInt(Mathf.Sqrt(totalCards)); // Calculate columns based on the square root of total cards
+        int rows = Mathf.CeilToInt((float)totalCards / columns);
+
+        RectTransform cardRect = cardPrefab.GetComponent<RectTransform>();
+
+        float cardWidth = cardRect.rect.width;
+        float cardHeight = cardRect.rect.height;
+
+        float totalWidth = columns * cardWidth + (columns - 1) * spacing;
+        float totalHeight = rows * cardHeight + (rows - 1) * spacing;
+
+        Vector2 startPos = new Vector2( -totalWidth / 2f + cardWidth / 2f, totalHeight / 2f - cardHeight / 2f);
+
+        for (int row = 0, cardIndex = 0; row < rows; row++)
+        {
+            for (int col = 0; col < columns; col++, cardIndex++)
+            {
+                if (cardIndex >= totalCards) break;
+
+                float x = startPos.x + col * (cardWidth + spacing);
+                float y = startPos.y - row * (cardHeight + spacing);
+                SpawnCard(cardIds[cardIndex], new Vector2(x, y));
+            }
         }
     }
 
