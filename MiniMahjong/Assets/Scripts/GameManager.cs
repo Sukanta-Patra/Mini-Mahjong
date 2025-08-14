@@ -12,19 +12,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Transform cardContainer;
     [SerializeField] private float spacing = 10f;
-    [SerializeField] private Sprite[] cardImages; 
+    [SerializeField] private Sprite[] cardImages;
+      private List<Card> currentPair = new List<Card>();
+
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
     void Start()
@@ -64,7 +58,7 @@ public class GameManager : MonoBehaviour
         float totalWidth = columns * cardWidth + (columns - 1) * spacing;
         float totalHeight = rows * cardHeight + (rows - 1) * spacing;
 
-        Vector2 startPos = new Vector2( -totalWidth / 2f + cardWidth / 2f, totalHeight / 2f - cardHeight / 2f);
+        Vector2 startPos = new Vector2(-totalWidth / 2f + cardWidth / 2f, totalHeight / 2f - cardHeight / 2f);
 
         for (int row = 0, cardIndex = 0; row < rows; row++)
         {
@@ -80,13 +74,54 @@ public class GameManager : MonoBehaviour
     }
 
     private void SpawnCard(int index, Vector2 pos)
-    { 
-            GameObject cardObject = Instantiate(cardPrefab, cardContainer);
-            cardObject.transform.localPosition = pos;
-            Card card = cardObject.GetComponent<Card>();
-            card.SetCardId(index);
-            card.SetCardImage(cardImages[index]);
-            cards.Add(card);
+    {
+        GameObject cardObject = Instantiate(cardPrefab, cardContainer);
+        cardObject.transform.localPosition = pos;
+        Card card = cardObject.GetComponent<Card>();
+        card.SetCardId(index);
+        card.SetCardImage(cardImages[index]);
+        cards.Add(card);
+    }
+
+    public void OnCardSelected(Card clickedCard)
+    {
+        //TODO: Reduce chance (if turn based mode)
+        //TODO: Play Tap/Card Flip SFX
+        currentPair.Add(clickedCard);
+
+        if (currentPair.Count >= 2)
+        {
+            // Copy the pair to local variables so further clicks won't interfere
+            Card first = currentPair[0];
+            Card second = currentPair[1];
+            currentPair = new List<Card>();
+
+            StartCoroutine(CheckMatch(first, second));
+
+        }
+    }
+
+   private IEnumerator CheckMatch(Card first, Card second)
+    {
+        yield return new WaitForSeconds(0.5f); // Delay so player sees the second card
+
+        if (first.GetCardId() == second.GetCardId())
+        {
+            //TODO: Add match SFX
+            //TODO: Increase score
+            first.SetMatched(true);
+            second.SetMatched(true);
+
+            yield return new WaitForSeconds(0.3f);
+            first.gameObject.SetActive(false);
+            second.gameObject.SetActive(false);
+        }
+        else
+        {
+            //TODO: Add mismatch SFX
+            first.CloseCard();
+            second.CloseCard();
+        }
     }
 
 }

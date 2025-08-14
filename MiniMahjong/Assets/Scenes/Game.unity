@@ -954,7 +954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards: []
-  maxCardPairs: 5
+  maxCardPairs: 6
   cardPrefab: {fileID: 8687567298007166942, guid: 50175decd03fa459dbaf52f0afe56276, type: 3}
   cardContainer: {fileID: 1218363534}
   spacing: 50

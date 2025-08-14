@@ -10,48 +10,51 @@ public class Card : MonoBehaviour, IPointerDownHandler
     private int cardId;
     private Sprite cardImage;
     private bool isShowingCard = false;
+    private bool isMatched = false;
 
-    public void SetCardId(int id)
-    {
-        cardId = id;
-    }
-
-    public int GetCardId()
-    {
-        return cardId;
-    }
-    public void SetCardImage(Sprite image)
-    {
-        cardImage = image;
-    }
+    public void SetCardId(int id) => cardId = id;
+    public int GetCardId() => cardId;
+    public void SetCardImage(Sprite image) => cardImage = image;
+    public bool IsMatched() => isMatched;
+    public void SetMatched(bool matched) => isMatched = matched;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (isShowingCard) return; // Prevent multiple clicks while showing the card
-        Debug.Log("Card clicked with ID: " + cardId);
-        StartCoroutine(ShowCard());
+        if (isShowingCard || isMatched) return; // Prevent multiple clicks while showing the card
+
+        GameManager.Instance.OnCardSelected(this);
+
+        StartCoroutine(ShowCardCoroutine());
     }
 
-    private IEnumerator ShowCard()
+    private IEnumerator ShowCardCoroutine()
     {
         isShowingCard = true;
         LeanTween.scaleX(gameObject, 0f, 0.15f);
 
         yield return new WaitForSeconds(0.15f);
+
         // Show the card image
         gameObject.GetComponent<Image>().sprite = cardImage;
-
         LeanTween.scaleX(gameObject, 1f, 0.15f);
-        yield return new WaitForSeconds(1f); // Wait and show card for a while
+    }
 
+    private IEnumerator CloseCardCoroutine()
+    { 
         LeanTween.scaleX(gameObject, 0f, 0.15f);
 
         yield return new WaitForSeconds(0.15f);
-        gameObject.GetComponent<Image>().sprite = plainCardImage;
 
+        // Reset to plain card image
+        gameObject.GetComponent<Image>().sprite = plainCardImage;
         LeanTween.scaleX(gameObject, 1f, 0.15f);
 
-        yield return new WaitForSeconds(0.15f);
         isShowingCard = false;
+    }
+
+    public void CloseCard()
+    {
+        if (!isShowingCard || isMatched) return; // Prevent closing if the card is not showing
+        StartCoroutine(CloseCardCoroutine());
     }
 }
