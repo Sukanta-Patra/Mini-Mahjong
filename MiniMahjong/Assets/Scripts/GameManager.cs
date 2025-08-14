@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Transform cardContainer;
     [SerializeField] private float spacing = 10f;
+    [SerializeField] private Sprite[] cardImages; 
 
     private void Awake()
     {
@@ -83,6 +85,7 @@ public class GameManager : MonoBehaviour
             cardObject.transform.localPosition = pos;
             Card card = cardObject.GetComponent<Card>();
             card.SetCardId(index);
+            card.SetCardImage(cardImages[index]);
             cards.Add(card);
     }
 

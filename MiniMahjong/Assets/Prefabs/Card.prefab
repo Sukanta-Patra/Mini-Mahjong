@@ -89,4 +89,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528f54cb6a49b40ca95773a45d0e80fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardId: 0
+  plainCardImage: {fileID: 2125420892, guid: aa7ecce8f28234e73a5ed5e57935bbc1, type: 3}
