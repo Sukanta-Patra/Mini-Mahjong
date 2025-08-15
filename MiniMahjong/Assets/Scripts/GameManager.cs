@@ -161,7 +161,8 @@ public class GameManager : MonoBehaviour
         }
 
 
-        //TODO: Play Tap/Card Flip SFX
+        //Tap/Card Flip SFX
+        AudioManager.Instance.PlayCardFlipSound();
         currentPair.Add(clickedCard);
 
         if (currentPair.Count >= 2)
@@ -182,7 +183,8 @@ public class GameManager : MonoBehaviour
 
         if (first.GetCardId() == second.GetCardId())
         {
-            //TODO: Add match SFX
+            //match SFX
+            AudioManager.Instance.PlayMatchFoundSound();
 
             //Increase score
             score++;
@@ -197,7 +199,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //TODO: Add mismatch SFX
+            //mismatch SFX
+            AudioManager.Instance.PlayMismatchSound();
             first.CloseCard();
             second.CloseCard();
         }
@@ -212,6 +215,7 @@ public class GameManager : MonoBehaviour
             endGamePopupPanel.SetActive(true);
             LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
             CheckAndSaveScore();
+            AudioManager.Instance.PlayGameOverSound();
         }
         else if (isTurnBasedMode && turns <= 0)
         {
@@ -223,6 +227,7 @@ public class GameManager : MonoBehaviour
             endGamePopupPanel.SetActive(true);
             LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
             CheckAndSaveScore();
+            AudioManager.Instance.PlayGameOverSound();
         }
     }
 
@@ -230,8 +235,7 @@ public class GameManager : MonoBehaviour
 
     public void OnGoBackButton()
     {
-        //TODO: Go to main menu
-        //Adding restart of same scene for now
+        //Go to main menu
         UnityEngine.SceneManagement.SceneManager.LoadScene("Start");
     }
 
@@ -261,6 +265,7 @@ public class GameManager : MonoBehaviour
             endGamePopupPanel.SetActive(true);
             LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
             CheckAndSaveScore();
+            AudioManager.Instance.PlayGameOverSound();
         }
     }
 

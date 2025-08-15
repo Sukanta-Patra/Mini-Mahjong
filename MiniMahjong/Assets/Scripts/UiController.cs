@@ -30,12 +30,14 @@ public class UiController : MonoBehaviour
 
     private void UpdateBestScoreText(int _ = 0)
     {
+        AudioManager.Instance.PlayButtonClickSound();
         int score = SaveManager.Instance.GetScore(GameModeController.Instance.GetSelectedDifficulty(), GameModeController.Instance.GetIsTurnBasedGameMode());
         bestScoreText.text = $"Best Score ({GameModeController.Instance.GetSelectedDifficulty().ToString()} - " + (GameModeController.Instance.GetIsTurnBasedGameMode() ? "Turn Based" : "Time Based") + $") : {score}";
     }
 
      public void OnStartClicked()
     {
+        AudioManager.Instance.PlayButtonClickSound();
         // Load Game scene
         UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
     }

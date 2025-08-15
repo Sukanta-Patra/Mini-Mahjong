@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4289484173211685414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4289484173211685412}
+  - component: {fileID: 4289484173211685413}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4289484173211685412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4289484173211685414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4289484173211685413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4289484173211685414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8462e57164a9e414983e7709b34f396b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTurnBasedMode: 1
+  gameModes:
+  - modeName: Easy
+    turns: 30
+    time: 60
+    maxCardPairs: 3
+  - modeName: Medium
+    turns: 25
+    time: 45
+    maxCardPairs: 4
+  - modeName: Serious
+    turns: 15
+    time: 30
+    maxCardPairs: 6
+  selectedDifficulty: 0
+  cards: []
+  cardPrefab: {fileID: 8687567298007166942, guid: 50175decd03fa459dbaf52f0afe56276, type: 3}
+  cardContainer: {fileID: 0}
+  spacing: 50
+  cardImages:
+  - {fileID: -1727261964, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -982367710, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -1217636008, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -1800267849, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -1089275569, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -547964555, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -177050388, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: 1176358604, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -706389108, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -560946009, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -395431625, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: 1081611583, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  - {fileID: -2058655918, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
+  scoreText: {fileID: 0}
+  turnsText: {fileID: 0}
+  gameModeText: {fileID: 0}
+  endGameText: {fileID: 0}
+  endGamePopupPanel: {fileID: 0}
+  bestScoreText: {fileID: 0}
+  endGameScoreText: {fileID: 0}
