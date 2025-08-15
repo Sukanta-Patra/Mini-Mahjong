@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
     public void OnCardSelected(Card clickedCard)
     {
 
-        if (isTurnBasedMode)
+        if (isTurnBasedMode && turns > 0)
         {
             //Turn based mode
             //Reduce chance (if turn based mode)
