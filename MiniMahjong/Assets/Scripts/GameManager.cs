@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     private int maxCardPairs;
 
     [SerializeField] private List<GameModeData> gameModes;
-    [SerializeField] private GameModeDifficulty selectedGameMode = 0;
+    [SerializeField] private GameModeDifficulty selectedDifficulty = 0;
     private GameModeData currentGameMode;
 
     [SerializeField] private List<Card> cards;
@@ -65,12 +65,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        selectedGameMode = GameModeController.instance.GetSelectedGameMode();
+        selectedDifficulty = GameModeController.Instance.GetSelectedDifficulty();
+        isTurnBasedMode = GameModeController.Instance.GetIsTurnBasedGameMode();
 
         // Initialize the game mode based on the selected index
-        maxCardPairs = gameModes[(int)selectedGameMode].maxCardPairs;
-        turns = gameModes[(int)selectedGameMode].turns;
-        time = gameModes[(int)selectedGameMode].time;
+        maxCardPairs = gameModes[(int)selectedDifficulty].maxCardPairs;
+        turns = gameModes[(int)selectedDifficulty].turns;
+        time = gameModes[(int)selectedDifficulty].time;
 
         gameModeText.text = isTurnBasedMode ? "Turns Left:" : "Time Left:";
         turnsText.text = isTurnBasedMode ? turns.ToString() : $"{time.ToString()}s <size=30px><b>(Make a move to start time)</b></size>"; // Using same string to show time in time-based mode

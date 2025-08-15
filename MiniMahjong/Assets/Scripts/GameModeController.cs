@@ -5,15 +5,16 @@ using TMPro;
 
 public class GameModeController : MonoBehaviour
 {
-    public static GameModeController instance;
+    public static GameModeController Instance;
 
-    [SerializeField] private GameModeDifficulty gameModeSelected = GameModeDifficulty.Easy; // Default to Easy mode
+    [SerializeField] private GameModeDifficulty difficultySelected = GameModeDifficulty.Easy; // Default to Easy mode
+    [SerializeField] private bool isTurnBasedGameMode = true;
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -21,8 +22,10 @@ public class GameModeController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public bool GetIsTurnBasedGameMode() => isTurnBasedGameMode;
+    public void SetIsTurnBasedGameMode(bool isTurnBased) => isTurnBasedGameMode = isTurnBased;
 
-    public GameModeDifficulty GetSelectedGameMode() => gameModeSelected;
-    public void SetSelectedGameMode(GameModeDifficulty mode) => gameModeSelected = mode;
+    public GameModeDifficulty GetSelectedDifficulty() => difficultySelected;
+    public void SetSelectedDifficulty(GameModeDifficulty difficulty) => difficultySelected = difficulty;
 
 }

@@ -6,18 +6,22 @@ using TMPro;
 public class UiController : MonoBehaviour
 {
 
+    [SerializeField] private TMP_Dropdown difficultyDropdown;
     [SerializeField] private TMP_Dropdown gameModeDropdown;
 
     void Start()
     {
-        gameModeDropdown.value = (int)GameModeController.instance.GetSelectedGameMode();
+        difficultyDropdown.value = (int)GameModeController.Instance.GetSelectedDifficulty();
+        difficultyDropdown.onValueChanged.AddListener(OnDifficultyChanged);
+    
+        gameModeDropdown.value = GameModeController.Instance.GetIsTurnBasedGameMode() ? 0 : 1;
         gameModeDropdown.onValueChanged.AddListener(OnGameModeChanged);
     }
 
-    private void OnGameModeChanged(int modeIndex)
-    { 
-        GameModeController.instance.SetSelectedGameMode((GameModeDifficulty)modeIndex);
-    }
+    private void OnDifficultyChanged(int difficultyIndex) => GameModeController.Instance.SetSelectedDifficulty((GameModeDifficulty)difficultyIndex);
+
+    private void OnGameModeChanged(int modeIndex) => GameModeController.Instance.SetIsTurnBasedGameMode(modeIndex == 0? true : false);
+
     
      public void OnStartClicked()
     {
