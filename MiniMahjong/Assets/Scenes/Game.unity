@@ -741,7 +741,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -284, y: 29.851}
+  m_AnchoredPosition: {x: -320.1, y: 29.851}
   m_SizeDelta: {x: 200, y: 47.3477}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &946994745
@@ -1011,8 +1011,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 118, y: -1.3261}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 215.77338, y: -1.3261}
+  m_SizeDelta: {x: 395.5468, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1035627312
 MonoBehaviour:
@@ -1147,7 +1147,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 284, y: 29.851}
+  m_AnchoredPosition: {x: 348.9, y: 29.851}
   m_SizeDelta: {x: 125.115, y: 47.3477}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136273013
@@ -1350,7 +1350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8462e57164a9e414983e7709b34f396b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTurnBasedMode: 0
   turns: 10
+  time: 10
   maxCardPairs: 6
   cards: []
   cardPrefab: {fileID: 8687567298007166942, guid: 50175decd03fa459dbaf52f0afe56276, type: 3}
@@ -1372,6 +1374,7 @@ MonoBehaviour:
   - {fileID: -2058655918, guid: 9a43f5431ace84873a0ccb2eb1d0bbb7, type: 3}
   scoreText: {fileID: 974159662}
   turnsText: {fileID: 1035627312}
+  gameModeText: {fileID: 946994745}
   endGameText: {fileID: 1965877010}
   endGamePopupPanel: {fileID: 548769762}
 --- !u!4 &1499441775

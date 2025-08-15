@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -11,7 +12,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Gameplay")]
     private int score = 0;
+    // Turn base mode : true | Time base mode : false 
+    [SerializeField] private bool isTurnBasedMode = true;
     [SerializeField] private int turns = 10;
+    [SerializeField] private int time = 10;
     [SerializeField] private int maxCardPairs;
     [SerializeField] private List<Card> cards;
     [SerializeField] private GameObject cardPrefab;
@@ -22,12 +26,13 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private TextMeshProUGUI turnsText;
+    [SerializeField] private TextMeshProUGUI turnsText; //Using same string to show time in time-based mode
+    [SerializeField] private TextMeshProUGUI gameModeText;
     [SerializeField] private TextMeshProUGUI endGameText;
     [SerializeField] private GameObject endGamePopupPanel;
 
-
     private bool isGameOver = false;
+    private bool timerStarted = false;
 
     private void Awake()
     {
@@ -36,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        gameModeText.text = isTurnBasedMode ? "Turns Left:" : "Time Left:";
+        turnsText.text = isTurnBasedMode ? turns.ToString() : $"{time.ToString()}s<size=20px><b>(Make a move to start time)</b></size>"; // Using same string to show time in time-based mode
         InitializeCards();
     }
 
@@ -99,9 +106,24 @@ public class GameManager : MonoBehaviour
     public void OnCardSelected(Card clickedCard)
     {
 
-        //Reduce chance (if turn based mode)
-        turns--;
-        turnsText.text = turns.ToString();
+        if (isTurnBasedMode)
+        {
+            //Turn based mode
+            //Reduce chance (if turn based mode)
+            turns--;
+            turnsText.text = turns.ToString();
+        }
+        else
+        {
+            //time based mode
+            if (!timerStarted && time > 0)
+            {
+                timerStarted = true;
+                StartCoroutine(StartTimer());
+            }
+
+        }
+
 
         //TODO: Play Tap/Card Flip SFX
         currentPair.Add(clickedCard);
@@ -155,8 +177,9 @@ public class GameManager : MonoBehaviour
             LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
 
         }
-        else if (turns <= 0)
+        else if (isTurnBasedMode && turns <= 0)
         {
+            //Only handling turn-based game over here
             //Game Over - Lose
             isGameOver = true;
             endGameText.text = "Game Over!";
@@ -169,10 +192,38 @@ public class GameManager : MonoBehaviour
     public bool GetIsGameOver() => isGameOver;
 
     public void OnGoBackButton()
-    { 
+    {
         //TODO: Go to main menu
         //Adding restart of same scene for now
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    public void SetTime(int _time) => time = _time;
+    public int GetTime() => time;
+    
+    private IEnumerator StartTimer()
+    {
+        turnsText.text = $"{time.ToString()}s";  //To remove the start timer instruction text
+        while (time > 0 && !isGameOver)
+        {
+            yield return new WaitForSeconds(1f);
+            time--;
+            // Update UI
+            if (time >= 0)
+            {
+                turnsText.text = $"{time.ToString()}s"; // Using same string to show time in time-based mode
+            }
+        }
+
+        if (time <= 0 && !isGameOver)
+        {
+            // Handling time mode game over condition here
+            isGameOver = true;
+            endGameText.text = "Time's Up!";
+            endGamePopupPanel.GetComponent<CanvasGroup>().alpha = 0f;
+            endGamePopupPanel.SetActive(true);
+            LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
+        }
     }
 
 }
