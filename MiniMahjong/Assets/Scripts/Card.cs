@@ -40,7 +40,7 @@ public class Card : MonoBehaviour, IPointerDownHandler
     }
 
     private IEnumerator CloseCardCoroutine()
-    { 
+    {
         LeanTween.scaleX(gameObject, 0f, 0.15f);
 
         yield return new WaitForSeconds(0.15f);
@@ -56,5 +56,22 @@ public class Card : MonoBehaviour, IPointerDownHandler
     {
         if (!isShowingCard || isMatched) return; // Prevent closing if the card is not showing
         StartCoroutine(CloseCardCoroutine());
+    }
+
+    public void DisableCard()
+    {
+        isMatched = true; //Safe check to ensure the card is not matched again
+        LeanTween.scale(gameObject, Vector3.zero, 0.15f).setOnComplete(() => gameObject.SetActive(false));
+    }
+
+    public void ResetCard()
+    {
+        //Incase if I go overboard and add retry buttons or something
+        StopAllCoroutines();
+        transform.localScale = Vector3.one;
+        isShowingCard = false;
+        isMatched = false;
+        gameObject.GetComponent<Image>().sprite = plainCardImage;
+        gameObject.SetActive(true);
     }
 }

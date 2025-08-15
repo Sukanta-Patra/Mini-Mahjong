@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform cardContainer;
     [SerializeField] private float spacing = 10f;
     [SerializeField] private Sprite[] cardImages;
-      private List<Card> currentPair = new List<Card>();
+    private List<Card> currentPair = new List<Card>();
 
 
     private void Awake()
@@ -113,8 +113,8 @@ public class GameManager : MonoBehaviour
             second.SetMatched(true);
 
             yield return new WaitForSeconds(0.3f);
-            first.gameObject.SetActive(false);
-            second.gameObject.SetActive(false);
+            first.DisableCard();
+            second.DisableCard();
         }
         else
         {
