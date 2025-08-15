@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameModeText;
     [SerializeField] private TextMeshProUGUI endGameText;
     [SerializeField] private GameObject endGamePopupPanel;
+    [SerializeField] private TextMeshProUGUI bestScoreText;
+    [SerializeField] private TextMeshProUGUI endGameScoreText;
 
     private bool isGameOver = false;
     private bool timerStarted = false;
@@ -134,7 +136,7 @@ public class GameManager : MonoBehaviour
         card.SetCardImage(cardImages[index]);
         card.MoveToPosition();
         cards.Add(card);
-        
+
     }
 
     public void OnCardSelected(Card clickedCard)
@@ -209,7 +211,7 @@ public class GameManager : MonoBehaviour
             endGamePopupPanel.GetComponent<CanvasGroup>().alpha = 0f;
             endGamePopupPanel.SetActive(true);
             LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
-
+            CheckAndSaveScore();
         }
         else if (isTurnBasedMode && turns <= 0)
         {
@@ -220,6 +222,7 @@ public class GameManager : MonoBehaviour
             endGamePopupPanel.GetComponent<CanvasGroup>().alpha = 0f;
             endGamePopupPanel.SetActive(true);
             LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
+            CheckAndSaveScore();
         }
     }
 
@@ -257,7 +260,21 @@ public class GameManager : MonoBehaviour
             endGamePopupPanel.GetComponent<CanvasGroup>().alpha = 0f;
             endGamePopupPanel.SetActive(true);
             LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
+            CheckAndSaveScore();
         }
+    }
+
+    private void CheckAndSaveScore()
+    {
+        int lastScore = SaveManager.Instance.GetScore(selectedDifficulty, isTurnBasedMode);
+        if (score > lastScore)
+        {
+            SaveManager.Instance.SaveScore(selectedDifficulty, isTurnBasedMode, score);
+            lastScore = score;
+        }
+
+        endGameScoreText.text = $"Score : {score}";
+        bestScoreText.text = $"Best : {lastScore}";
     }
 
 }
