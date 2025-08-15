@@ -11,22 +11,39 @@ public class Card : MonoBehaviour, IPointerDownHandler
     private Sprite cardImage;
     private bool isShowingCard = false;
     private bool isMatched = false;
+    private Vector2 placedPosition;
 
     public void SetCardId(int id) => cardId = id;
     public int GetCardId() => cardId;
     public void SetCardImage(Sprite image) => cardImage = image;
     public bool IsMatched() => isMatched;
     public void SetMatched(bool matched) => isMatched = matched;
+    public void SetPlacedPosition(Vector2 position) => placedPosition = position;
 
     public void OnPointerDown(PointerEventData eventData)
     {
         // Prevent multiple clicks while showing the card
         //OR if Game is over, skip card interactions
-        if (isShowingCard || isMatched || GameManager.Instance.GetIsGameOver()) return; 
+        if (isShowingCard || isMatched || GameManager.Instance.GetIsGameOver()) return;
 
         GameManager.Instance.OnCardSelected(this);
 
         StartCoroutine(ShowCardCoroutine());
+    }
+
+    public void MoveToPosition()
+    {
+        StartCoroutine(MoveToPositionCoroutine());
+    }
+
+    private IEnumerator MoveToPositionCoroutine()
+    {
+        isShowingCard = true; // Prevent further clicks while moving
+        yield return new WaitForSeconds(0.5f);
+
+        // Move the card to its placed position
+        LeanTween.moveLocal(gameObject, placedPosition, 0.5f).setEase(LeanTweenType.easeInOutQuad);
+        yield return new WaitForSeconds(0.5f);
     }
 
     private IEnumerator ShowCardCoroutine()

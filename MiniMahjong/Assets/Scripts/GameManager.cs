@@ -125,11 +125,13 @@ public class GameManager : MonoBehaviour
     private void SpawnCard(int index, Vector2 pos)
     {
         GameObject cardObject = Instantiate(cardPrefab, cardContainer);
-        cardObject.transform.localPosition = pos;
         Card card = cardObject.GetComponent<Card>();
+        card.SetPlacedPosition(pos);
         card.SetCardId(index);
         card.SetCardImage(cardImages[index]);
+        card.MoveToPosition();
         cards.Add(card);
+        
     }
 
     public void OnCardSelected(Card clickedCard)
