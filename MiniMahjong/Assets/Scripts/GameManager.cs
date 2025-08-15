@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        selectedGameMode = GameModeController.instance.GetSelectedGameMode();
+
         // Initialize the game mode based on the selected index
         maxCardPairs = gameModes[(int)selectedGameMode].maxCardPairs;
         turns = gameModes[(int)selectedGameMode].turns;
@@ -226,7 +228,7 @@ public class GameManager : MonoBehaviour
     {
         //TODO: Go to main menu
         //Adding restart of same scene for now
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Start");
     }
 
     public void SetTime(int _time) => time = _time;
