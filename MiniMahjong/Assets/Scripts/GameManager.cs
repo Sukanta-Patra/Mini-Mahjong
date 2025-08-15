@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         time = gameModes[(int)selectedGameMode].time;
 
         gameModeText.text = isTurnBasedMode ? "Turns Left:" : "Time Left:";
-        turnsText.text = isTurnBasedMode ? turns.ToString() : $"{time.ToString()}s<size=20px><b>(Make a move to start time)</b></size>"; // Using same string to show time in time-based mode
+        turnsText.text = isTurnBasedMode ? turns.ToString() : $"{time.ToString()}s <size=30px><b>(Make a move to start time)</b></size>"; // Using same string to show time in time-based mode
         InitializeCards();
     }
 
