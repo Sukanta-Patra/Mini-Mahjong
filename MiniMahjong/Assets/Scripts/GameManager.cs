@@ -3,7 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using Random = UnityEngine.Random;
 
+
+[Serializable]
+public struct GameModeData
+{
+    public string modeName;
+    public int turns;
+    public int time;
+    public int maxCardPairs;
+}
+
+[Serializable]
+public enum GameModeDifficulty
+{
+    Easy,
+    Medium,
+    Serious
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -14,9 +33,14 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     // Turn base mode : true | Time base mode : false 
     [SerializeField] private bool isTurnBasedMode = true;
-    [SerializeField] private int turns = 10;
-    [SerializeField] private int time = 10;
-    [SerializeField] private int maxCardPairs;
+    private int turns = 10;
+    private int time = 10;
+    private int maxCardPairs;
+
+    [SerializeField] private List<GameModeData> gameModes;
+    [SerializeField] private GameModeDifficulty selectedGameMode = 0;
+    private GameModeData currentGameMode;
+
     [SerializeField] private List<Card> cards;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Transform cardContainer;
@@ -41,6 +65,11 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // Initialize the game mode based on the selected index
+        maxCardPairs = gameModes[(int)selectedGameMode].maxCardPairs;
+        turns = gameModes[(int)selectedGameMode].turns;
+        time = gameModes[(int)selectedGameMode].time;
+
         gameModeText.text = isTurnBasedMode ? "Turns Left:" : "Time Left:";
         turnsText.text = isTurnBasedMode ? turns.ToString() : $"{time.ToString()}s<size=20px><b>(Make a move to start time)</b></size>"; // Using same string to show time in time-based mode
         InitializeCards();
@@ -200,7 +229,7 @@ public class GameManager : MonoBehaviour
 
     public void SetTime(int _time) => time = _time;
     public int GetTime() => time;
-    
+
     private IEnumerator StartTimer()
     {
         turnsText.text = $"{time.ToString()}s";  //To remove the start timer instruction text

@@ -1351,9 +1351,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTurnBasedMode: 0
-  turns: 10
-  time: 10
-  maxCardPairs: 6
+  gameModes:
+  - modeName: Easy
+    turns: 30
+    time: 60
+    maxCardPairs: 3
+  - modeName: Medium
+    turns: 25
+    time: 45
+    maxCardPairs: 4
+  - modeName: Serious
+    turns: 15
+    time: 30
+    maxCardPairs: 6
+  selectedGameMode: 0
   cards: []
   cardPrefab: {fileID: 8687567298007166942, guid: 50175decd03fa459dbaf52f0afe56276, type: 3}
   cardContainer: {fileID: 1218363534}
