@@ -20,7 +20,9 @@ public class Card : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (isShowingCard || isMatched) return; // Prevent multiple clicks while showing the card
+        // Prevent multiple clicks while showing the card
+        //OR if Game is over, skip card interactions
+        if (isShowingCard || isMatched || GameManager.Instance.GetIsGameOver()) return; 
 
         GameManager.Instance.OnCardSelected(this);
 

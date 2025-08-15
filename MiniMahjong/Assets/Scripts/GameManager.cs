@@ -2,19 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private List<Card> cards;
+
+    [Header("Gameplay")]
+    private int score = 0;
+    [SerializeField] private int turns = 10;
     [SerializeField] private int maxCardPairs;
+    [SerializeField] private List<Card> cards;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Transform cardContainer;
     [SerializeField] private float spacing = 10f;
     [SerializeField] private Sprite[] cardImages;
     private List<Card> currentPair = new List<Card>();
 
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI turnsText;
+    [SerializeField] private TextMeshProUGUI endGameText;
+    [SerializeField] private GameObject endGamePopupPanel;
+
+
+    private bool isGameOver = false;
 
     private void Awake()
     {
@@ -85,7 +98,11 @@ public class GameManager : MonoBehaviour
 
     public void OnCardSelected(Card clickedCard)
     {
-        //TODO: Reduce chance (if turn based mode)
+
+        //Reduce chance (if turn based mode)
+        turns--;
+        turnsText.text = turns.ToString();
+
         //TODO: Play Tap/Card Flip SFX
         currentPair.Add(clickedCard);
 
@@ -101,14 +118,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   private IEnumerator CheckMatch(Card first, Card second)
+    private IEnumerator CheckMatch(Card first, Card second)
     {
         yield return new WaitForSeconds(0.5f); // Delay so player sees the second card
 
         if (first.GetCardId() == second.GetCardId())
         {
             //TODO: Add match SFX
-            //TODO: Increase score
+
+            //Increase score
+            score++;
+            scoreText.text = score.ToString();
+
             first.SetMatched(true);
             second.SetMatched(true);
 
@@ -122,6 +143,36 @@ public class GameManager : MonoBehaviour
             first.CloseCard();
             second.CloseCard();
         }
+
+        //Check Game Over condition
+        if (score >= maxCardPairs)
+        {
+            //Win
+            isGameOver = true;
+            endGameText.text = "You Win!";
+            endGamePopupPanel.GetComponent<CanvasGroup>().alpha = 0f;
+            endGamePopupPanel.SetActive(true);
+            LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
+
+        }
+        else if (turns <= 0)
+        {
+            //Game Over - Lose
+            isGameOver = true;
+            endGameText.text = "Game Over!";
+            endGamePopupPanel.GetComponent<CanvasGroup>().alpha = 0f;
+            endGamePopupPanel.SetActive(true);
+            LeanTween.alphaCanvas(endGamePopupPanel.GetComponent<CanvasGroup>(), 1f, 0.25f);
+        }
+    }
+
+    public bool GetIsGameOver() => isGameOver;
+
+    public void OnGoBackButton()
+    { 
+        //TODO: Go to main menu
+        //Adding restart of same scene for now
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
 }
