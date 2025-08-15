@@ -44,6 +44,7 @@ public class Card : MonoBehaviour, IPointerDownHandler
         // Move the card to its placed position
         LeanTween.moveLocal(gameObject, placedPosition, 0.5f).setEase(LeanTweenType.easeInOutQuad);
         yield return new WaitForSeconds(0.5f);
+        isShowingCard = false;
     }
 
     private IEnumerator ShowCardCoroutine()
